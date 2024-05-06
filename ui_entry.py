@@ -133,10 +133,6 @@ iterations_entry.bind("<FocusIn>", lambda event: iterations_entry.delete(0, "end
 iterations_entry.bind("<FocusOut>", lambda event: iterations_entry.insert(0, default_text) if iterations_entry.get() == "" else None)
 iterations_entry.pack()
 
-function_label = tk.Label(window, text="Function for Integral Calculation:")
-function_label.pack()
-function_entry = tk.Entry(window)
-function_entry.pack()
 
 
 # Create buttons for calculating figure and integral
