@@ -3,20 +3,24 @@ import tkinter as tk
 from tkinter import messagebox
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 
 def calculate_integral(N):
     if N == '#':
-        N_values = [10, 100, 1000, 10000, 100000, 1000000]
+        N_values = [10**1, 10**2, 10**3, 10**4, 10**5, 10**6, 10**7, 10**8]
     else:
         N_values = [N]
     
     relative_errors = []
     analytical_value = 8.0 / 3.0
     
+    Is = []
     xs = []; ys = []
+    times = []
     for N in N_values:
         k = 0
+        time_start = time.time()
         for i in range(N):
             x = random.uniform(0.0, 4.0)
             y = random.uniform(0.0, 4.0)
@@ -27,15 +31,16 @@ def calculate_integral(N):
                 if len(N_values) == 1:
                     xs.append(x)
                     ys.append(y)
-            
-        I = 16.0 * k / N
+        time_end = time.time(); times.append(time_end - time_start)
+        Is.append(16.0 * k / N)
+        I = Is[-1]
         relative_error = abs(I - analytical_value) / analytical_value
         relative_errors.append(relative_error)
         print(f"{k}, N = {N}, Integral = {I}, Relative error = {relative_error}")
     for i in range(len(N_values)):
-        print(f"{k}, N = {N_values[i]}, Integral = {I}, Relative error = {relative_errors[i]}")
+        print(f"N = {N_values[i]}, Integral = {Is[i]}, Time = {times[i]}s")
         # messagebox.showinfo("Integral", f"N = {N_values[i]}, Integral = {I}, Relative error = {relative_errors[i]}")
-    message = '\n'.join([f"N = {N_values[i]}, Integral = {I}, Relative error = {relative_errors[i]}" for i in range(len(N_values))])
+    message = '\n'.join([f"N = {N_values[i]}, Integral = {Is[i]}, Relative error = {relative_errors[i]}" for i in range(len(N_values))])
     messagebox.showinfo("Integral", message)
     
     x = np.linspace(0, 2, 100)
@@ -47,17 +52,17 @@ def calculate_integral(N):
     if N == '#':
         return
     
-    plt.figure()
-    plt.contourf(X, Y, (Z1 > Z2), cmap='gray')
-    plt.contour(X, Y, (Z1 > Z2), colors='black', linewidths=2)
-    plt.scatter(xs, ys, color='red', marker='.')
-    plt.xlim(0, 2)
-    plt.ylim(0, 4)
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('Figure')
-    plt.grid(True)
-    plt.show()
+    # plt.figure()
+    # plt.contourf(X, Y, (Z1 > Z2), cmap='gray')
+    # plt.contour(X, Y, (Z1 > Z2), colors='black', linewidths=2)
+    # plt.scatter(xs, ys, color='red', marker='.')
+    # plt.xlim(0, 2)
+    # plt.ylim(0, 4)
+    # plt.xlabel('x')
+    # plt.ylabel('y')
+    # plt.title('Figure')
+    # plt.grid(True)
+    # plt.show()
 
 def calculate_area(N):
     k = 0
@@ -132,7 +137,6 @@ iterations_entry.config(fg="gray")
 iterations_entry.bind("<FocusIn>", lambda event: iterations_entry.delete(0, "end"))
 iterations_entry.bind("<FocusOut>", lambda event: iterations_entry.insert(0, default_text) if iterations_entry.get() == "" else None)
 iterations_entry.pack()
-
 
 
 # Create buttons for calculating figure and integral
