@@ -7,48 +7,69 @@ import time
 
 
 def calculate_integral(N):
+    # Если N равно '#', то создаем список значений N_values
+    # от 10^1 до 10^8 с шагом 10^1
+    # В противном случае, создаем список с одним значением N
     if N == '#':
         N_values = [10**1, 10**2, 10**3, 10**4, 10**5, 10**6, 10**7, 10**8]
     else:
         N_values = [N]
     
-    relative_errors = []
-    analytical_value = 8.0 / 3.0
+    relative_errors = []  # Список для хранения относительных ошибок
+    analytical_value = 8.0 / 3.0  # Аналитическое значение интеграла
     
-    Is = []
-    xs = []; ys = []
-    times = []
+    Is = []  # Список для хранения вычисленных значений интеграла
+    xs = []; ys = []  # Списки для хранения координат точек
+    times = []  # Список для хранения времени выполнения
+    
+    # Выполняем цикл для каждого значения N
     for N in N_values:
         k = 0
-        time_start = time.time()
+        time_start = time.time()  # Засекаем время начала выполнения
+        
+        # Генерируем случайные точки и проверяем условие
         for i in range(N):
             x = random.uniform(0.0, 4.0)
             y = random.uniform(0.0, 4.0)
             
             if x < 2 and x * x > y:
                 k += 1
-            
+                
+                # Если список N_values содержит только одно значение,
+                # добавляем координаты точек в соответствующие списки
                 if len(N_values) == 1:
                     xs.append(x)
                     ys.append(y)
-        time_end = time.time(); times.append(time_end - time_start)
-        Is.append(16.0 * k / N)
-        I = Is[-1]
-        relative_error = abs(I - analytical_value) / analytical_value
-        relative_errors.append(relative_error)
+        
+        time_end = time.time()  # Засекаем время окончания выполнения
+        times.append(time_end - time_start)  # Добавляем время выполнения в список
+        
+        I = 16.0 * k / N  # Вычисляем значение интеграла
+        Is.append(I)  # Добавляем значение интеграла в список
+        
+        relative_error = abs(I - analytical_value) / analytical_value  # Вычисляем относительную ошибку
+        relative_errors.append(relative_error)  # Добавляем относительную ошибку в список
+        
         print(f"{k}, N = {N}, Integral = {I}, Relative error = {relative_error}")
+    
+    # Выводим информацию о значениях интеграла, времени выполнения и относительной ошибке
     for i in range(len(N_values)):
         print(f"N = {N_values[i]}, Integral = {Is[i]}, Time = {times[i]}s")
-        # messagebox.showinfo("Integral", f"N = {N_values[i]}, Integral = {I}, Relative error = {relative_errors[i]}")
+    
+    # Формируем сообщение с информацией о значениях интеграла, времени выполнения и относительной ошибке
     message = '\n'.join([f"N = {N_values[i]}, Integral = {Is[i]}, Relative error = {relative_errors[i]}" for i in range(len(N_values))])
+    
+    # Выводим сообщение с информацией о значениях интеграла, времени выполнения и относительной ошибке
     messagebox.showinfo("Integral", message)
     
-    x = np.linspace(0, 2, 100)
-    y = np.linspace(0, 4, 100)
-    X, Y = np.meshgrid(x, y)
-    Z1 = X**2
-    Z2 = Y
-
+    # # Создаем сетку точек для построения графика
+    # x = np.linspace(0, 2, 100)
+    # y = np.linspace(0, 4, 100)
+    # X, Y = np.meshgrid(x, y)
+    # Z1 = X**2
+    # Z2 = Y
+    
+    # Если N равно '#', то прекращаем выполнение функции
     if N == '#':
         return
     
