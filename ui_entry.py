@@ -2,32 +2,33 @@ import random
 import tkinter as tk
 from tkinter import messagebox
 import numpy as np
-import matplotlib.pyplot as plt
 import time
+
+import matplotlib.pyplot as plt
 
 
 def calculate_integral(N):
-    # Если N равно '#', то создаем список значений N_values
-    # от 10^1 до 10^8 с шагом 10^1
-    # В противном случае, создаем список с одним значением N
+    # If N is '#', create a list of N_values
+    # from 10^1 to 10^8 with a step of 10^1
+    # Otherwise, create a list with a single value N
     if N == '#':
         N_values = [10**1, 10**2, 10**3, 10**4, 10**5, 10**6, 10**7, 10**8]
     else:
         N_values = [N]
     
-    relative_errors = []  # Список для хранения относительных ошибок
-    analytical_value = 8.0 / 3.0  # Аналитическое значение интеграла
+    relative_errors = []  # List to store relative errors
+    analytical_value = 8.0 / 3.0  # Analytical value of the integral
     
-    Is = []  # Список для хранения вычисленных значений интеграла
-    xs = []; ys = []  # Списки для хранения координат точек
-    times = []  # Список для хранения времени выполнения
+    Is = []  # List to store computed integral values
+    xs = []; ys = []  # Lists to store point coordinates
+    times = []  # List to store execution times
     
-    # Выполняем цикл для каждого значения N
+    # Perform loop for each value of N
     for N in N_values:
         k = 0
-        time_start = time.time()  # Засекаем время начала выполнения
+        time_start = time.time()  # Start timing
         
-        # Генерируем случайные точки и проверяем условие
+        # Generate random points and check the condition
         for i in range(N):
             x = random.uniform(0.0, 4.0)
             y = random.uniform(0.0, 4.0)
@@ -35,55 +36,54 @@ def calculate_integral(N):
             if x < 2 and x * x > y:
                 k += 1
                 
-                # Если список N_values содержит только одно значение,
-                # добавляем координаты точек в соответствующие списки
+                # If N_values contains only one value,
+                # add point coordinates to the corresponding lists
                 if len(N_values) == 1:
                     xs.append(x)
                     ys.append(y)
         
-        time_end = time.time()  # Засекаем время окончания выполнения
-        times.append(time_end - time_start)  # Добавляем время выполнения в список
+        time_end = time.time()  # End timing
+        times.append(time_end - time_start)  # Add execution time to the list
         
-        I = 16.0 * k / N  # Вычисляем значение интеграла
-        Is.append(I)  # Добавляем значение интеграла в список
+        I = 16.0 * k / N  # Compute the integral value
+        Is.append(I)  # Add the integral value to the list
         
-        relative_error = abs(I - analytical_value) / analytical_value  # Вычисляем относительную ошибку
-        relative_errors.append(relative_error)  # Добавляем относительную ошибку в список
+        relative_error = abs(I - analytical_value) / analytical_value  # Compute the relative error
+        relative_errors.append(relative_error)  # Add the relative error to the list
         
         print(f"{k}, N = {N}, Integral = {I}, Relative error = {relative_error}")
     
-    # Выводим информацию о значениях интеграла, времени выполнения и относительной ошибке
+    # Print information about the integral values, execution times, and relative errors
     for i in range(len(N_values)):
         print(f"N = {N_values[i]}, Integral = {Is[i]}, Time = {times[i]}s")
     
-    # Формируем сообщение с информацией о значениях интеграла, времени выполнения и относительной ошибке
+    # Create a message with information about the integral values, execution times, and relative errors
     message = '\n'.join([f"N = {N_values[i]}, Integral = {Is[i]}, Relative error = {relative_errors[i]}" for i in range(len(N_values))])
     
-    # Выводим сообщение с информацией о значениях интеграла, времени выполнения и относительной ошибке
+    # Show a message box with information about the integral values, execution times, and relative errors
     messagebox.showinfo("Integral", message)
     
-    # # Создаем сетку точек для построения графика
-    # x = np.linspace(0, 2, 100)
-    # y = np.linspace(0, 4, 100)
-    # X, Y = np.meshgrid(x, y)
-    # Z1 = X**2
-    # Z2 = Y
-    
-    # Если N равно '#', то прекращаем выполнение функции
+    # If N is '#', return from the function
     if N == '#':
         return
     
-    # plt.figure()
-    # plt.contourf(X, Y, (Z1 > Z2), cmap='gray')
-    # plt.contour(X, Y, (Z1 > Z2), colors='black', linewidths=2)
-    # plt.scatter(xs, ys, color='red', marker='.')
-    # plt.xlim(0, 2)
-    # plt.ylim(0, 4)
-    # plt.xlabel('x')
-    # plt.ylabel('y')
-    # plt.title('Figure')
-    # plt.grid(True)
-    # plt.show()
+    # Create a grid of points for plotting the figure
+    x = np.linspace(0, 2, 100)
+    y = np.linspace(0, 4, 100)
+    X, Y = np.meshgrid(x, y)
+    Z1 = X**2
+    Z2 = Y
+    plt.figure()
+    plt.contourf(X, Y, (Z1 > Z2), cmap='gray')
+    plt.contour(X, Y, (Z1 > Z2), colors='black', linewidths=2)
+    plt.scatter(xs, ys, color='red', marker='.')
+    plt.xlim(0, 2)
+    plt.ylim(0, 4)
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Figure')
+    plt.grid(True)
+    plt.show()
 
 def calculate_area(N):
     k = 0
