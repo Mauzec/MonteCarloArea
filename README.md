@@ -21,5 +21,9 @@ The program also calculates the integral of x^2 from 0 to 2.
 - tkinter
 
 ## Screenshots
-![UI Screenshot](assets/ui_home.png)
-![UI Screenshot](assets/ui_1000_pic.png)
+<div align="center">
+    <img src="assets/ui_home.png" alt="UI Screenshot" />
+</div>
+<div align="center">
+    <img src="assets/ui_1000_pic.png" alt="UI Screenshot" />
+</div>
